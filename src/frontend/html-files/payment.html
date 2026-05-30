@@ -1,0 +1,166 @@
+<!-- Payment Template -->
+
+<div class="payment-container">
+
+    <div class="page-header">
+
+        <h2>
+            💳 Review Your Order
+        </h2>
+
+        <p>
+            Verify your items before completing payment.
+        </p>
+
+    </div>
+
+    <!-- Order Summary -->
+
+    <div
+        ng-if="data.cart.total != 0"
+        class="payment-card">
+
+        <table class="payment-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Qty</th>
+
+                    <th>Product</th>
+
+                    <th>Subtotal</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr
+                    ng-repeat="item in data.cart.items">
+
+                    <td>
+
+                        {{ item.qty }}
+
+                    </td>
+
+                    <td>
+
+                        {{ item.name }}
+
+                    </td>
+
+                    <td class="currency">
+
+                        €{{ item.subtotal.toFixed(2) }}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <!-- Summary -->
+
+        <div class="payment-summary">
+
+            <div class="summary-row">
+
+                <span>
+
+                    Tax
+
+                </span>
+
+                <span>
+
+                    €{{ data.cart.tax.toFixed(2) }}
+
+                </span>
+
+            </div>
+
+            <div class="summary-row payment-total">
+
+                <span>
+
+                    Grand Total
+
+                </span>
+
+                <span>
+
+                    €{{ data.cart.total.toFixed(2) }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Payment Button -->
+
+        <div class="payment-action">
+
+            <button
+                class="pay-btn"
+                ng-disabled="data.buttonDisabled"
+                ng-click="pay();">
+
+                🔒 Pay Securely
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Status Message -->
+
+    <div
+        class="message payment-message">
+
+        {{ data.message }}
+
+    </div>
+
+    <!-- Success -->
+
+    <div
+        ng-if="data.cont"
+        class="payment-success">
+
+        <div class="success-icon">
+
+            ✅
+
+        </div>
+
+        <h3>
+
+            Thank You For Your Order
+
+        </h3>
+
+        <p>
+
+            Your robots are being prepared for shipment.
+
+        </p>
+
+        <a
+            class="continue-btn"
+            href="/">
+
+            Continue Shopping
+
+        </a>
+
+    </div>
+
+</div>

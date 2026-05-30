@@ -1,0 +1,45 @@
+name: Robo Shop Workflow in gihub actions
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: pr-validation-${{ github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  build-service:
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - cart
+          - catalogue
+          - user
+          - shipping
+          - payment
+          - frontend
+    uses: ./.github/workflows/docker-build-push-workflow.yml
+    secrets: inherit
+    with:
+      repo_name: ${{ vars.REPO_NAME }}
+      service: ${{ matrix.service }}
+      service_path: ${{ matrix.service }}
+
+  docker-compose:
+    needs: build-service
+    uses: ./.github/workflows/docker-compose-integration.yml
+    secrets: inherit
+    with:
+      compose_file: compose/docker-compose-integration-dev.yml
+      repo_name: ${{ vars.REPO_NAME }}
+
+
+
+
